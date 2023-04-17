@@ -1,0 +1,58 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../style/style.css" />
+    <link rel="stylesheet" href="../..//bootstrap.css/css/bootstrap.min.css" />
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <header>
+      <nav
+        class="navbar navbar-expand-sm navbar-expand-md navbar-expand-lg bg-success gap-2"
+      >
+        <div class="container-fluid justify-content-start">
+          <ul class="navbar-nav">
+            <li class="nav-item mx-1">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Search by Title"
+                id="filterTitle"
+                name="filterTitle"
+              />
+            </li>
+            <li>
+              <button
+                class="btn btn-outline-light"
+                type="submit"
+              >Search</button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="container-fluid justify-content-end">
+          <ul class="navbar-nav">
+            <li>
+              <a
+                type="button"
+                class="btn btn-sm btn-outline-light"
+                href="/index"
+              >
+                Cerrar Sesion</a>
+            </li>
+          </ul>
+        </div>
+
+      </nav>
+
+    </header>
+
+    <main>
+      {{{body}}}
+    </main>
+
+    <script src="../../public/bootstrap.js/js/bootstrap.min.js"></script>
+  </body>
+</html>
