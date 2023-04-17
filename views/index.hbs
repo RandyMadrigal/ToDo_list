@@ -1,3 +1,99 @@
 <main>
-  <h1>Hello world</h1>
+  <section class="py-5 text-center container">
+    <div class="row">
+      <div
+        class="d-flex flex-column justify-content-center align-items-center gap-2"
+      >
+        <div class="col-lg-6 col-md-2 mx-auto">
+          <h1 class="fw-bold">MyApp</h1>
+        </div>
+
+       
+
+        </i>
+
+        <div class="col-md-2 mx-auto">
+          <!-- Button trigger modal -->
+          <button
+            class="btn btn-primary btn-lg"
+            data-bs-toggle="modal"
+            data-bs-target="#addModal"
+          >
+           <i class="fa-regular fa-plus fa-beat-fade"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="py-4 bg-light">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-12 g-3">
+          <div class="col">
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Lorem ipsum dolor sit amet consectetur
+                  adipisicing elit. Voluptatum cupiditate placeat, vero natus
+                  alias maxime adipisci esse veniam provident culpa! Minus
+                  mollitia totam officia nesciunt eaque fugiat neque aut
+                  tempore!</p>
+                <a href="#" class="btn btn-warning">Editar</a>
+                <a href="#" class="btn btn-danger">Eliminar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<!-- Modal -->
+<section>
+  <form action="/index" method="post">
+    <div class="modal fade" id="addModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="col-12">
+              <label for="Titulo" class="form-label fw-bold">Titulo.</label>
+              <input
+                type="text"
+                class="form-control"
+                id="Titulo"
+                name="Titulo"
+                required
+              />
+            </div>
+            <div class="col-12">
+              <label
+                for="Descripcion"
+                class="form-label fw-bold"
+              >Descripcion.</label>
+              <textarea
+                class="form-control"
+                name="Descripcion"
+                id="Descripcion"
+                cols="1"
+                rows="10"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >Close</button>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+<!-- Modal -->
