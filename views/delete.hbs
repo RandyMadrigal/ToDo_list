@@ -1,0 +1,29 @@
+<section class="mt-5">
+  <div class="container">
+
+    <div class="col-6 offset-3">
+      <h2 class="mb-5">¿Desea Eliminar este Item?</h2>
+      <label
+        for="Titulo"
+        class="form-label fw-bold fs-5"
+      >{{Item.Titulo}}</label>
+    </div>
+    <div class="col-6 offset-3">
+      <textarea
+        class="form-control"
+        name="Descripcion"
+        id="Descripcion"
+        cols="1"
+        rows="6"
+        disabled
+      >{{Item.Descripcion}}</textarea>
+    </div>
+    <form action="/delete" method="post">
+      <input type="hidden" name="Id" value={{Item.Id}} />
+      <div class="col-6 offset-3 mt-2">
+        <a type="button" class="btn btn-secondary" href="/index">Atras</a>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+      </div>
+    </form>
+  </div>
+</section>

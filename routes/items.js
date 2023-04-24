@@ -4,4 +4,8 @@ const itemsController = require("../controller/items");
 
 router.get("/index", itemsController.getIndex);
 router.post("/index", itemsController.postAddItems);
+
+router.get("/delete/:Id", itemsController.getDelete);
+router.post("/delete", itemsController.postDelete);
+
 exports.router = router;
