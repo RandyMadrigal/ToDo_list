@@ -8,10 +8,6 @@
           <h1 class="fw-bold">MyApp</h1>
         </div>
 
-       
-
-        </i>
-
         <div class="col-md-2 mx-auto">
           <!-- Button trigger modal -->
           <button
@@ -19,7 +15,7 @@
             data-bs-toggle="modal"
             data-bs-target="#addModal"
           >
-           <i class="fa-regular fa-plus fa-beat-fade"></i>
+            <i class="fa-regular fa-plus fa-beat-fade"></i>
           </button>
         </div>
       </div>
@@ -27,26 +23,42 @@
   </section>
 
   <section>
-    <div class="py-4 bg-light">
-      <div class="container">
-        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-12 g-3">
-          <div class="col">
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet consectetur
-                  adipisicing elit. Voluptatum cupiditate placeat, vero natus
-                  alias maxime adipisci esse veniam provident culpa! Minus
-                  mollitia totam officia nesciunt eaque fugiat neque aut
-                  tempore!</p>
-                <a href="#" class="btn btn-warning">Editar</a>
-                <a href="#" class="btn btn-danger">Eliminar</a>
+    {{#if hasItems}}
+      {{#each Item}}
+        <div class="py-3 bg-light">
+          <div class="container">
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-12 g-2">
+              <div class="col">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{this.Titulo}} </h5>
+                    <p class="card-text">{{this.Descripcion}} </p>
+                    <a href="#" class="btn btn-warning">Editar</a>
+                    <a href="#" class="btn btn-danger">Eliminar</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="py-3 bg-light">
+        <div class="container">
+          <div class="row row-cols-1 row-cols-sm-1 row-cols-md-12 g-2">
+            <div class="col">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Agregar datos </h5>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+    {{/if}}
+
   </section>
 </main>
 

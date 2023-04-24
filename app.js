@@ -1,9 +1,15 @@
+require("dotenv").config();
+
 const express = require("express");
-const port = 3900;
+const PORT = process.env.PORT || 3700;
 const bodyParser = require("body-parser");
 const path = require("path");
 const expressHbs = require("express-handlebars"); //Engine view
 const bcryptjs = require("bcryptjs"); //Encriptar contraseñas
+
+//database
+const sequelize = require("./util/database/database");
+const AdminItems = require("./model/AdminItem");
 
 //routes
 const itemsRouter = require("./routes/items");
@@ -27,6 +33,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(itemsRouter.router);
 
-app.listen(port, () => {
-  console.log("the app is running in the port " + port);
-});
+sequelize
+  .sync()
+  .then((result) => {
+    app.listen(PORT, () => {
+      console.log("the app is running in the port: " + PORT);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
