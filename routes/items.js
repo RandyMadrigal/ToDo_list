@@ -8,4 +8,7 @@ router.post("/index", itemsController.postAddItems);
 router.get("/delete/:Id", itemsController.getDelete);
 router.post("/delete", itemsController.postDelete);
 
+router.get("/edit/:Id", itemsController.getEdit);
+router.post("/edit", itemsController.postEdit);
+
 exports.router = router;

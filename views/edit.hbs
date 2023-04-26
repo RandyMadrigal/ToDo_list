@@ -1,0 +1,48 @@
+<section class="mt-5">
+
+  <div class="container">
+
+<form {{#if editMode}} action="/edit" {{else}} action="/delete" {{/if}}  method="post">
+
+    <div class="col-6 offset-3 mb-2">
+      <h2 class="mb-5">
+        {{#if editMode}} ¿Desea Editar este Item? {{else}}
+          ¿Desea Eliminar este Item?
+        {{/if}}
+      </h2>
+      <label
+        for="Titulo"
+        class="form-label fw-bold fs-5"
+      >Titulo</label>
+      <input type="text" class="form-control" id="Titulo" name="Titulo" value="{{Item.Titulo}}" 
+      {{#if editMode}} {{else}} disabled {{/if}}>
+    </div>
+
+    <div class="col-6 offset-3">
+      <label
+        for="Descripcion"
+        class="form-label fw-bold fs-5"
+      >Descripcion</label>
+
+      <textarea
+        class="form-control"
+        name="Descripcion"
+        id="Descripcion"
+        cols="1"
+        rows="6"
+        {{#if editMode}} {{else}} disabled {{/if}}
+        
+      >{{Item.Descripcion}}</textarea>
+    </div>
+      <input type="hidden" name="Id" value={{Item.Id}} />
+      <div class="col-6 offset-3 mt-2">
+        <a type="button" class="btn btn-secondary" href="/index">Atras</a>
+        {{#if editMode}} 
+         <button type="submit" class="btn btn-warning">Editar</button>
+        {{else}} 
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+         {{/if}}
+      </div>
+    </form>
+  </div>
+</section>

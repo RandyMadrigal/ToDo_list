@@ -33,7 +33,10 @@
                   <div class="card-body">
                     <h5 class="card-title">{{this.Titulo}} </h5>
                     <p class="card-text">{{this.Descripcion}} </p>
-                    <a href="#" class="btn btn-warning">Editar</a>
+                    <a
+                      href="/edit/{{this.Id}}?editMode=true"
+                      class="btn btn-warning"
+                    >Editar</a>
                     <a
                       href="/delete/{{this.Id}}"
                       ,
@@ -70,7 +73,7 @@
 <section>
   <form action="/index" method="post">
     <div class="modal fade" id="addModal">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-body">
             <div class="col-12">

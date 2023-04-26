@@ -35,7 +35,7 @@ exports.getDelete = (req, res, next) => {
   AdminItems.findByPk(Id)
     .then((result) => {
       const item = result.dataValues;
-      res.render("delete", { title: "delete", Item: item });
+      res.render("edit", { title: "delete", Item: item });
     })
     .catch((err) => {
       console.log(err);
@@ -52,4 +52,38 @@ exports.postDelete = (req, res, next) => {
     console.log(err);
   }
   res.redirect("/index");
+};
+
+exports.getEdit = (req, res, next) => {
+  const Id = req.params.Id;
+  const editMode = req.query.editMode;
+
+  try {
+    if (editMode) {
+      AdminItems.findByPk(Id)
+        .then((result) => {
+          const item = result.dataValues;
+          console.log(item.Titulo);
+          res.render("edit", { title: "Edit", Item: item, editMode: editMode });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      res.redirect("/index");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.postEdit = (req, res, next) => {
+  const { Id, Titulo, Descripcion } = req.body;
+
+  AdminItems.update(
+    { Titulo: Titulo, Descripcion: Descripcion },
+    { where: { Id: Id } }
+  );
+
+  res.redirect("/Index");
 };
