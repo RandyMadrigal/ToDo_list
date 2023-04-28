@@ -14,6 +14,9 @@ const AdminItems = require("./model/AdminItem");
 //routes
 const itemsRouter = require("./routes/items");
 
+//Error Controller
+const ErrorController = require("./controller/404");
+
 const app = express();
 
 app.engine(
@@ -32,6 +35,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(itemsRouter.router);
+
+app.use("/", ErrorController.Error404);
 
 sequelize
   .sync()
