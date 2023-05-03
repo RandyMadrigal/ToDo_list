@@ -10,8 +10,10 @@ const bcryptjs = require("bcryptjs"); //Encriptar contraseñas
 //database
 const sequelize = require("./util/database/database");
 const AdminItems = require("./model/AdminItem");
+const UsersModel = require("./model/Users");
 
 //routes
+const loginRouter = require("./routes/login");
 const itemsRouter = require("./routes/items");
 
 //Error Controller
@@ -34,15 +36,32 @@ app.set("views", "./views");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(loginRouter.router);
 app.use(itemsRouter.router);
 
 app.use("/", ErrorController.Error404);
 
 sequelize
-  .sync()
+  .sync({ force: true })
   .then((result) => {
+    return UsersModel.findAll({ where: { UserName: process.env.USER_NAME } });
+  })
+  .then((user) => {
+    if (!user) {
+      const hash = bcryptjs.hashSync(`process.env.PASSWORD`, 8);
+
+      UsersModel.create({
+        Nombre: process.env.NOMBRE,
+        Apellido: process.env.APELLIDO,
+        UserName: process.env.USERNAME,
+        Password: hash,
+      });
+    }
+    return user;
+  })
+  .then((user) => {
     app.listen(PORT, () => {
-      console.log("the app is running in the port: " + PORT);
+      console.log("running in port " + PORT + " / Conexion  exitosa");
     });
   })
   .catch((err) => {
