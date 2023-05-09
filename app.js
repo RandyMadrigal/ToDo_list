@@ -42,26 +42,27 @@ app.use(itemsRouter.router);
 app.use("/", ErrorController.Error404);
 
 sequelize
-  .sync({ force: true })
+  .sync()
   .then((result) => {
-    return UsersModel.findAll({ where: { UserName: process.env.USER_NAME } });
+    return UsersModel.findByPk(process.env.ID || 1);
   })
   .then((user) => {
     if (!user) {
-      const hash = bcryptjs.hashSync(`process.env.PASSWORD`, 8);
-
-      UsersModel.create({
+      const hash = bcryptjs.hashSync(process.env.PASSWORD, 8);
+      return UsersModel.create({
         Nombre: process.env.NOMBRE,
         Apellido: process.env.APELLIDO,
-        UserName: process.env.USERNAME,
+        UserName: process.env.USER_NAME,
         Password: hash,
       });
     }
+    console.log(user);
     return user;
   })
   .then((user) => {
     app.listen(PORT, () => {
       console.log("running in port " + PORT + " / Conexion  exitosa");
+      console.log(user);
     });
   })
   .catch((err) => {
