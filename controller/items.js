@@ -1,6 +1,8 @@
 const AdminItems = require("../model/AdminItem");
 
 exports.getIndex = (req, res, next) => {
+  const filterTitle = req.body.filterTitle;
+
   AdminItems.findAll()
     .then((result) => {
       const item = result.map((result) => result.dataValues); //Estandar
@@ -19,6 +21,7 @@ exports.postAddItems = (req, res, next) => {
   AdminItems.create({
     Titulo: Titulo,
     Descripcion: Descripcion,
+    UserId: req.user[0].Id,
   })
     .then((result) => {
       console.log(result);
@@ -63,7 +66,6 @@ exports.getEdit = (req, res, next) => {
       AdminItems.findByPk(Id)
         .then((result) => {
           const item = result.dataValues;
-          console.log(item.Titulo);
           res.render("edit", { title: "Edit", Item: item, editMode: editMode });
         })
         .catch((err) => {

@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const expressHbs = require("express-handlebars"); //Engine view
 const bcryptjs = require("bcryptjs"); //Encriptar contraseñas
+const session = require("express-session");
 
 //database
 const sequelize = require("./util/database/database");
@@ -18,6 +19,10 @@ const itemsRouter = require("./routes/items");
 
 //Error Controller
 const ErrorController = require("./controller/404");
+
+//store session
+const store = require("connect-session-sequelize")(session.Store);
+const myStore = new store({ db: sequelize });
 
 const app = express();
 
@@ -36,13 +41,36 @@ app.set("views", "./views");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(
+  session({
+    secret: process.env.SECRET || "my secret",
+    resave: false,
+    saveUninitialized: false,
+    store: myStore,
+  })
+);
+
+app.use((req, res, next) => {
+  UsersModel.findAll({ where: { UserName: process.env.USER_NAME } })
+    .then((result) => {
+      const user = result.map((result) => result.dataValues); //Estandar
+      req.user = user;
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+      next();
+    });
+});
+
 app.use(loginRouter.router);
 app.use(itemsRouter.router);
 
 app.use("/", ErrorController.Error404);
 
+/*
 sequelize
-  .sync()
+  .sync({ force: true })
   .then((result) => {
     return UsersModel.findByPk(process.env.ID || 1);
   })
@@ -63,6 +91,34 @@ sequelize
     app.listen(PORT, () => {
       console.log("running in port " + PORT + " / Conexion  exitosa");
       console.log(user);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+*/
+
+AdminItems.belongsTo(UsersModel, { constraint: true, onDelete: "CASCADE" });
+UsersModel.hasMany(AdminItems);
+
+//FIND OR CREATE METHOD TO USE A DEFAULT USER IN THE APP.
+sequelize
+  .sync()
+  .then((result) => {
+    const hash = bcryptjs.hashSync(process.env.PASSWORD, 8);
+    return UsersModel.findOrCreate({
+      where: { UserName: process.env.USER_NAME },
+      defaults: {
+        Nombre: process.env.NOMBRE,
+        Apellido: process.env.APELLIDO,
+        UserName: process.env.USER_NAME,
+        Password: hash,
+      },
+    });
+  })
+  .then((result) => {
+    app.listen(PORT, () => {
+      console.log("running in port " + PORT + " / Conexion  exitosa");
     });
   })
   .catch((err) => {

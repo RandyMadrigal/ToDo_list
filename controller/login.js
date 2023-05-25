@@ -19,7 +19,8 @@ exports.postLogin = (req, res, next) => {
         .compare(Password, item[0].Password)
         .then((isEqual) => {
           if (isEqual) {
-            res.redirect("index");
+            req.session.IsLoggedIn = true;
+            return res.redirect("index");
           }
           res.redirect("/");
         })
@@ -37,4 +38,25 @@ exports.getCreateUser = (req, res, next) => {
     Title: "Create-User",
     layout: "login-layouts",
   });
+};
+
+exports.postCreateUser = (req, res, next) => {
+  const { Nombre, Apellido, UserName, Password } = req.body;
+
+  const hash = bcryptjs.hashSync(Password, 8);
+
+  userModel
+    .create({
+      Nombre: Nombre,
+      Apellido: Apellido,
+      UserName: UserName,
+      Password: hash,
+    })
+    .then((result) => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("create-user");
+    });
 };
