@@ -7,6 +7,7 @@ const path = require("path");
 const expressHbs = require("express-handlebars"); //Engine view
 const bcrypt = require("bcrypt"); //Encriptar contraseñas
 const session = require("express-session");
+const flash = require("connect-flash");
 //database
 const sequelize = require("./util/database/database");
 const AdminItems = require("./model/AdminItem");
@@ -46,14 +47,15 @@ app.use(
   })
 );
 
-//Session middleware
+app.use(flash());
+
+//Session
 app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
   }
 
   //console.log(req.session.user);
-
   UsersModel.findByPk(req.session.user.Id)
     .then((user) => {
       req.user = user.dataValues;
@@ -83,6 +85,7 @@ sequelize
       defaults: {
         Nombre: process.env.NOMBRE,
         Apellido: process.env.APELLIDO,
+        Email: process.env.EMAIL,
         UserName: process.env.USER_NAME,
         Password: hash,
       },

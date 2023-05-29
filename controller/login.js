@@ -2,7 +2,11 @@ const userModel = require("../model/Users");
 const bcrypt = require("bcrypt");
 
 exports.getLogin = (req, res, next) => {
-  res.render("login/login", { Title: "Login", layout: "login-layouts" });
+  res.render("login/login", {
+    Title: "Login",
+    errorMessage: req.flash("error"),
+    layout: "login-layouts",
+  });
 };
 
 exports.postLogin = (req, res, next) => {
@@ -13,7 +17,8 @@ exports.postLogin = (req, res, next) => {
     .then((result) => {
       const item = result.map((result) => result.dataValues);
       if (item.length < 1) {
-        res.redirect("/");
+        req.flash("error", "Invalid User");
+        return res.redirect("/");
       }
       bcrypt
         .compare(Password, item[0].Password)
@@ -23,6 +28,8 @@ exports.postLogin = (req, res, next) => {
             req.session.IsLoggedIn = true;
             return res.redirect("index");
           }
+          //password don't match
+          req.flash("error", "Invalid password");
           res.redirect("/");
         })
         .catch((err) => {
@@ -30,6 +37,7 @@ exports.postLogin = (req, res, next) => {
         });
     })
     .catch((err) => {
+      //Nombre de usuario ya esta ocupado!
       console.log(err);
     });
 };
@@ -44,27 +52,43 @@ exports.postLogOut = (req, res, next) => {
 exports.getCreateUser = (req, res, next) => {
   res.render("login/create-user", {
     Title: "Create-User",
+    errorMessage: req.flash("error"),
     layout: "login-layouts",
   });
 };
 
 exports.postCreateUser = (req, res, next) => {
-  const { Nombre, Apellido, UserName, Password } = req.body;
+  const { Nombre, Apellido, Email, UserName, Password, ConfirmPassword } =
+    req.body;
 
   const hash = bcrypt.hashSync(Password, 8);
 
-  userModel
-    .create({
-      Nombre: Nombre,
-      Apellido: Apellido,
-      UserName: UserName,
-      Password: hash,
-    })
-    .then((result) => {
-      res.redirect("/");
+  const isEqual = bcrypt
+    .compare(ConfirmPassword, hash)
+    .then((isEqual) => {
+      if (isEqual) {
+        userModel
+          .create({
+            Nombre: Nombre,
+            Apellido: Apellido,
+            Email: Email,
+            UserName: UserName,
+            Password: hash,
+          })
+          .then((result) => {
+            res.redirect("/");
+          })
+          .catch((err) => {
+            req.flash("error", "the user is already in use");
+            console.log(err);
+            res.redirect("create-user");
+          });
+      } else {
+        req.flash("error", "Confirm the Password");
+        res.redirect("create-user");
+      }
     })
     .catch((err) => {
       console.log(err);
-      res.redirect("create-user");
     });
 };
