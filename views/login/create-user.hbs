@@ -1,11 +1,11 @@
 <main>
   <div class="container center top">
     <div class="col-8">
-      {{#if errorMessage}}
-        <div class="alert alert-danger text-center fw-bold" role="alert">
-          {{errorMessage}}
-        </div>
+      
+       {{#if errorMessage}}
+       {{> ErrorMessage Message=errorMessage}}
       {{/if}}
+
       <form action="create-user" method="post">
         <div class="card">
           <div class="card-body">

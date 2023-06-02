@@ -77,7 +77,7 @@ UsersModel.hasMany(AdminItems);
 
 //FIND OR CREATE METHOD TO USE A DEFAULT USER IN THE APP.
 sequelize
-  .sync()
+  .sync({ force: true })
   .then((result) => {
     const hash = bcrypt.hashSync(process.env.PASSWORD, 8);
     return UsersModel.findOrCreate({

@@ -6,6 +6,11 @@
       >
         <div class="col-lg-6 col-md-2 mx-auto">
           <h1 class="fw-bold">MyApp</h1>
+         
+        {{#if successful}}
+            {{> successfulMessage Message=successful}}
+        {{/if}}
+        
         </div>
 
         <div class="col-md-2 mx-auto">

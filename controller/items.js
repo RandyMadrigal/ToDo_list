@@ -11,6 +11,7 @@ exports.getIndex = (req, res, next) => {
         Item: item,
         hasItems: item.length > 0,
         UserName: req.session.user.UserName,
+        successful: req.flash("successful"),
       });
     })
     .catch((err) => {});

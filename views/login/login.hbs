@@ -2,11 +2,15 @@
 
   <div class="container center top text-white">
     <div class="col-4">
+
       {{#if errorMessage}}
-        <div class="alert alert-danger text-center fw-bold" role="alert">
-          {{errorMessage}}
-        </div>
+       {{> ErrorMessage Message=errorMessage}}
       {{/if}}
+
+      {{#if infoMessage}}
+        {{> InfoMessage Message=infoMessage}}
+      {{/if}}
+
       <form method="post" action="/">
         <h2 class="h3 mb-3 fw-normal">Hi! </h2>
         <div class="mb-3">

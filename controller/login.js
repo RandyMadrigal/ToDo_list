@@ -5,6 +5,7 @@ exports.getLogin = (req, res, next) => {
   res.render("login/login", {
     Title: "Login",
     errorMessage: req.flash("error"),
+    infoMessage: req.flash("info"),
     layout: "login-layouts",
   });
 };
@@ -26,6 +27,7 @@ exports.postLogin = (req, res, next) => {
           if (isEqual) {
             req.session.user = item[0];
             req.session.IsLoggedIn = true;
+            req.flash("successful", "Hi " + item[0].UserName + " :D");
             return res.redirect("index");
           }
           //password don't match
@@ -61,6 +63,37 @@ exports.postCreateUser = (req, res, next) => {
   const { Nombre, Apellido, Email, UserName, Password, ConfirmPassword } =
     req.body;
 
+  //Check Email.
+  userModel
+    .findAll({ where: { Email: Email } })
+    .then((result) => {
+      const user = result.map((result) => result.dataValues);
+      console.log(user.length);
+      if (user.length > 0) {
+        req.flash("error", "the Email is already in use");
+        res.redirect("create-user");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  //Check UserName
+  userModel
+    .findAll({ where: { UserName: UserName } })
+    .then((result) => {
+      const user = result.map((result) => result.dataValues);
+      console.log(user.length);
+      if (user.length > 0) {
+        req.flash("error", "the User is already in use");
+        res.redirect("create-user");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  //password and confirm password
   const hash = bcrypt.hashSync(Password, 8);
 
   const isEqual = bcrypt
@@ -76,15 +109,14 @@ exports.postCreateUser = (req, res, next) => {
             Password: hash,
           })
           .then((result) => {
+            req.flash("info", "your user has been created successfully");
             res.redirect("/");
           })
           .catch((err) => {
-            req.flash("error", "the user is already in use");
             console.log(err);
-            res.redirect("create-user");
           });
       } else {
-        req.flash("error", "Confirm the Password");
+        req.flash("error", "Wrong Password");
         res.redirect("create-user");
       }
     })
