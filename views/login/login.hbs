@@ -4,7 +4,7 @@
     <div class="col-4">
 
       {{#if errorMessage}}
-       {{> ErrorMessage Message=errorMessage}}
+         {{> ErrorMessage Message=errorMessage}}
       {{/if}}
 
       {{#if infoMessage}}
@@ -12,7 +12,7 @@
       {{/if}}
 
       <form method="post" action="/">
-        <h2 class="h3 mb-3 fw-normal">Hi! </h2>
+        <h2 class="h3 mb-3 fw-normal">Log In </h2>
         <div class="mb-3">
           <label for="UserName" class="form-label">UserName</label>
           <input
@@ -33,10 +33,10 @@
             required
           />
         </div>
-        <button class="w-100 btn btn-primary mb-2" type="submit">Sign in</button>
+        <button class="w-100 btn btn-success mb-2" type="submit">Log In</button>
 
-        <p>you don't have an account?
-          <a href="/create-user"> Click Here!</a></p>
+        <p>No account?
+          <a href="/create-user"> CREATE ONE!</a></p>
 
       </form>
     </div>

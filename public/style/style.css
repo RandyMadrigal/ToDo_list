@@ -12,3 +12,16 @@
 .invisible {
   display: none;
 }
+
+p > a:link,
+p > a:visited {
+  color: orange;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+p > a:hover {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}

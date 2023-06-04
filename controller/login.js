@@ -1,5 +1,8 @@
+require("dotenv").config();
+
 const userModel = require("../model/Users");
 const bcrypt = require("bcrypt");
+const Transporter = require("../services/sendEmail");
 
 exports.getLogin = (req, res, next) => {
   res.render("login/login", {
@@ -111,6 +114,23 @@ exports.postCreateUser = (req, res, next) => {
           .then((result) => {
             req.flash("info", "your user has been created successfully");
             res.redirect("/");
+
+            return Transporter.send({
+              to: Email,
+              from: process.env.SENDER,
+              subject: "your user has been created successfull - " + Nombre,
+              html: "<strong>Welcome to ToDoApp W'Nodejs c: </strong>",
+            })
+              .then((response) => {
+                console.log(response[0].statusCode);
+                console.log(response[0].headers);
+              })
+              .catch((err) => {
+                console.log(
+                  err +
+                    " Unauthorized, u need a API KEY to use the email services"
+                );
+              });
           })
           .catch((err) => {
             console.log(err);
